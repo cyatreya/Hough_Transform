@@ -31,7 +31,22 @@ All lines can be represented in this form when θ ∈ [0, 180] and r ∈ R (or �
 
 ### Mapping of Points to Hough Space
 
+An important concept for the Hough transform is the mapping of single points. The idea is, that a point is mapped to all lines, that can pass through that point. This yields a sine-like line in the Hough space. The principle is illustrated for a point p0 = (40, 50) in Figure 2.
 
+![](assets/README/6.png)
+
+
+## ALGORITHM
+
+The algorithm for detecting straight lines can be divided into the following steps:
+
+* Edge detection, e.g. using the Canny edge detector.
+
+* Mapping of edge points to the Hough space and storage in an accumulator.
+
+* Interpretation of the accumulator to yield lines of infinite length. The interpretation is done by thresholding and possibly other constraints.
+
+* Conversion of infinite lines to finite lines.
 
 
 
