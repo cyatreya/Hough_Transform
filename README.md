@@ -97,16 +97,49 @@ Typically, we have hundreds of edge pixels and the accumulator is used to find t
 
 Let’s see how this is done.
 
+Let’s say our accumulator is 20×20 in size. So, there are 20 distinct values of θ and so for every edge pixel (x, y), we can calculate 20 (ρ, θ) pairs by using equation 2. The bin of the accumulator corresponding to these 20 values of (ρ, θ) is incremented.
+
+We do this for every edge pixel and now we have an accumulator that has all the evidence about all possible lines in the image.
+
+We can simply select the bins in the accumulator above a certain threshold to find the lines in the image. If the threshold is higher, you will find fewer strong lines, and if it is lower, you will find a large number of lines including some weak ones.
+
+An example of the entire line detection process is shown in Figure 4.
+
+![](assets/README/11.png)
+
+As it is obvious from Figure 4e, several entrances in the accumulator around one true line in the edge map will have large values. Therefore a simple threshold has a tendency to detect several (almost identical) lines for each true line. To avoid this, a suppression neighborhood can be defined, so that two lines must be significantly different before both are detected.
+
+## FINITE LINES
+
+The classical Hough transform detects lines given only by the parameters r and θ and no information with regards to length. Thus, all detected lines are infinite in length. If finite lines are desired, some additional analysis must be performed to determine which areas of the image that contributes to each line. Several algorithms for doing this exist. One way is to store coordinate information for all points in the accumulator, and use this information to limit the lines. However, this would cause the accumulator to use much more memory. Another way is to search along the infinit lines in the edge image to find finit lines. A variant of this approach known as the ***Progressive Probabilistic Hough Transform***
 
 
+# PROGRESSIVE PROBABILISTIC HOUGH TRANSFORM
+
+The Hough transform is not a fast algorithm for finding infinite lines in images of a certain size. Since additional analysis is required to detect finite lines, this is even slower. A way to speed up the Hough Transform and finding finite lines at the same time is the Progressive Probabilistic Hough Transform (PPHT). The idea of this methood is to transform randomly selected pixels in the edge image into the accumulator. When a bin in the accumulator corresponding to a particular infinite line has got a certain number of votes, the edge image is searched along that line to see if one or more finite line(s) are present. Then all pixels on that line are removed from the edge image. In this way the algorithm returns finite lines. If the vote threshold is low the number of pixels to evaluate in the accumulator gets small. The algorithm can be outlined as follows:
+
+* 1. Create a copy (IMG2) of the input edge image (IMG1).
+
+* 2. If IMG2 is empty then finish.
+
+* 3. Update the accumulator with a randomly selected pixel from IMG2.
+
+* 4. Remove the pixel from IMG2.
+
+* 5. If the bin with the largest value in the accumulator (BINX) that was modified is lower than the threshold, goto point 1.
+
+* 6. Search in IMG1 along a corridor specified by BINX, and find the longest segment of pixels either continuous or exhibiting gaps not exceeding a given threshold.
+
+* 7. Remove the pixels in the segment from IMG2.
+
+* 8. Clear BINX.
+
+* 9. If the detected line segment is longer than a given minimum length, add it into the output list.
+
+* 10. Goto point 2
 
 
-
-
-
-
-
-
+An issue with this algorithm is, that severel runs may may yield different results. This can be the case if many lines share pixels. If two lines cross, the fist line to be detected removes the common pixel (and a band around it) resulting in a gab in the other line. If many lines cross, then many pixels can miss in the last lines, and the votes in the accumulator may not reach the threshold.
 
 
 
