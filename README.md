@@ -142,7 +142,7 @@ The Hough transform is not a fast algorithm for finding infinite lines in images
 An issue with this algorithm is, that severel runs may may yield different results. This can be the case if many lines share pixels. If two lines cross, the fist line to be detected removes the common pixel (and a band around it) resulting in a gab in the other line. If many lines cross, then many pixels can miss in the last lines, and the votes in the accumulator may not reach the threshold.
 
 
-# Circle Detection
+# CIRCLE DETECTION
 
 Hough transform can be extended to detect circles of the equation r^2=(x−a)^2+(y−b)^2 in the parameter space, ρ=(a,b,r). Furthermore, it can be generalized to detect arbitrary shapes.
 
