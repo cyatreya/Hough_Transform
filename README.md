@@ -21,7 +21,7 @@ Lines can be represented uniquely by two parameters. Often the form in Equation 
 
 ![](assets/README/3.png)
 
-This form is, however, not able to represent vertical lines. Therefore, the Hough transform uses the form in Equation 2, which can be rewritten to Equation 3 to be similar to Equation 1. The parameters θ and r $\rho$ is the angle of the line and the distance from the line to the origin respectively.
+This form is, however, not able to represent vertical lines. Therefore, the Hough transform uses the form in Equation 2, which can be rewritten to Equation 3 to be similar to Equation 1. The parameters θ and r or as many people call it \rho is the angle of the line and the distance from the line to the origin respectively.
 
 ![](assets/README/4.png)
 
